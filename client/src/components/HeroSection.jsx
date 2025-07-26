@@ -1,7 +1,15 @@
 import React from 'react';
 import { ArrowRight, MapPin, Users, TrendingUp, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+
 
 export default function HeroSection() {
+    const navigate = useNavigate();
+    function nav() {
+        navigate('/GetStarted');
+    }
+
     return (
         <section id="home" className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-yellow-50 pt-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -18,7 +26,7 @@ export default function HeroSection() {
                             </p>
                         </div>
 
-                        <button className="bg-gray-900 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
+                        <button onClick={()=>{nav()}} className="bg-gray-900 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
                             <span>Get Started</span>
                             <ArrowRight className="w-5 h-5" />
                         </button>

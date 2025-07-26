@@ -49,6 +49,7 @@ export default function LoginPage({ onBack, onSwitchToRegister, onLogin }) {
         e.preventDefault();
         if (validateForm()) {
             onLogin({ ...formData, userType });
+
         }
     };
     const navigate = useNavigate();

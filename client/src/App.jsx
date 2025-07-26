@@ -8,6 +8,8 @@ import { Routes, Route } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import './App.css';
+import GetStarted from "./pages/getstarted.jsx";
+
 
 function App() {
     return (
@@ -16,6 +18,7 @@ function App() {
                  <Route path='/' element={<LandingPage/>}/>
                     <Route path='/register' element={<RegisterPage/>}/>
                     <Route path='/phoneAuthentication' element={<PhoneAuthentication/>}/>
+                    <Route path='/getStarted' element={<GetStarted/>}/>
                 <Route path='/login' element={<Login/>}/>
          
             </Routes>
