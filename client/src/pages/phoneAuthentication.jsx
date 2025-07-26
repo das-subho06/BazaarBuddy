@@ -60,7 +60,7 @@ const {error, isLoading, verifyPhone}=useAuthStore()
   
 
   useEffect(()=>{
-    if (code.every(digit=>digit !=='' )){
+    if (otp.every(digit=>digit !=='' )){
      handleSubmit(new Event('submit'))
     }
   },[otp])
