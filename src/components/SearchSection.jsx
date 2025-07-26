@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { MapPin, Calendar, Search } from 'lucide-react';
 
-export default function SearchSection() {
+export default function SearchSection({ onSearch }) {
     const [location, setLocation] = useState('');
     const [category, setCategory] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const [showSuggestions, setShowSuggestions] = useState(false);
 
     const indianCities = [
@@ -32,6 +33,12 @@ export default function SearchSection() {
     const handleCitySelect = (city) => {
         setLocation(city);
         setShowSuggestions(false);
+    };
+
+    const handleSearch = () => {
+        if (onSearch) {
+            onSearch(searchQuery, location, category);
+        }
     };
 
     const floatingElements = [
@@ -68,7 +75,21 @@ export default function SearchSection() {
                 </div>
 
                 <div className="bg-white rounded-3xl shadow-2xl p-8">
-                    <div className="grid md:grid-cols-3 gap-6">
+                    <div className="grid md:grid-cols-4 gap-6">
+                        <div className="space-y-2">
+                            <label className="text-sm font-semibold text-gray-700 flex items-center">
+                                <Search className="w-4 h-4 mr-2 text-orange-500" />
+                                Search
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Spices, vegetables, etc."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all"
+                            />
+                        </div>
+
                         <div className="space-y-2 relative">
                             <label className="text-sm font-semibold text-gray-700 flex items-center">
                                 <MapPin className="w-4 h-4 mr-2 text-orange-500" />
@@ -122,7 +143,10 @@ export default function SearchSection() {
                         </div>
 
                         <div className="flex items-end">
-                            <button className="w-full bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
+                            <button 
+                                onClick={handleSearch}
+                                className="w-full bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                            >
                                 <Search className="w-5 h-5" />
                                 <span className="font-semibold">Search</span>
                             </button>

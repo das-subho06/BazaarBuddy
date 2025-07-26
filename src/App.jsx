@@ -7,9 +7,36 @@ import SearchSection from './components/SearchSection';
 import CommunitySection from './components/CommunitySection';
 import TestimonialsSection from './components/TestimonialsSection';
 import Footer from './components/Footer';
+import StorePage from './components/StorePage';
 
 function App() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState('home');
+    const [searchData, setSearchData] = useState({
+        query: '',
+        location: '',
+        category: ''
+    });
+
+    const handleSearch = (query, location, category) => {
+        setSearchData({ query, location, category });
+        setCurrentPage('store');
+    };
+
+    const handleBackToHome = () => {
+        setCurrentPage('home');
+    };
+
+    if (currentPage === 'store') {
+        return (
+            <StorePage
+                searchQuery={searchData.query}
+                location={searchData.location}
+                category={searchData.category}
+                onBack={handleBackToHome}
+            />
+        );
+    }
 
     return (
         <div className="min-h-screen">
@@ -17,7 +44,7 @@ function App() {
             <HeroSection />
             <StatsSection />
             <FeaturesSection />
-            <SearchSection />
+            <SearchSection onSearch={handleSearch} />
             <CommunitySection />
             <TestimonialsSection />
             <Footer />
