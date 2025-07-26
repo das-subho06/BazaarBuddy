@@ -19,7 +19,7 @@ function App() {
                     <Route path='/register' element={<RegisterPage/>}/>
                     <Route path='/phoneAuthentication' element={<PhoneAuthentication/>}/>
                     <Route path='/getStarted' element={<GetStarted/>}/>
-                <Route path='/login' element={<Login/>}/>
+                    <Route path='/login' element={<Login/>}/>
          
             </Routes>
                  <Toaster/>

@@ -1,4 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
+import currentPage from '../components/RegisterPage.jsx'
+import  setCurrentPage  from '../components/RegisterPage.jsx'
+import handleBackToHome from '../components/RegisterPage.jsx'
+import handleRegister from '../components/RegisterPage.jsx'
+import RegisterPage from '../components/RegisterPage.jsx'
+import LandingPage from '../pages/landingpage.jsx'
+import { useNavigate } from 'react-router-dom';
 import {
     ShoppingCart,
     Users,
@@ -13,7 +20,62 @@ import {
     Shield
 } from 'lucide-react';
 
+
 function GetStarted() {
+    // const [currentPage, setCurrentPage] = useState('home');
+    // const handleRegister =async (userData) => {
+    //     // In a real app, you would register with a backend
+    //     // setUser(userData);
+    //     // setCurrentPage('home');
+    //     // console.log('User registered:', userData);
+    //     try {
+    //         const response = await fetch('http://localhost:5000/api/auth/register', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify(userData),
+    //         });
+    //
+    //         const data = await response.json();
+    //
+    //         if (response.ok) {
+    //             alert('Registration successful!');
+    //             setUser(data.user); // Adjust based on your backend response
+    //             setCurrentPage('home');
+    //         } else {
+    //             alert(`Registration failed: ${data.message}`);
+    //         }
+    //     } catch (error) {
+    //         console.error('Registration error:', error);
+    //         alert('Something went wrong. Please try again.');
+    //     }
+    // };
+    // const handleBackToHome = () => {
+    //     setCurrentPage('home');
+    //     //navigate('/');
+    // };
+    //
+    //
+
+
+
+
+    const navigate=useNavigate();
+    function navreg(){
+         setCurrentPage('register')
+
+            if(currentPage === 'register')
+            return(
+            <RegisterPage
+                onBack={handleBackToHome}
+                onSwitchToLogin={() => setCurrentPage('login')}
+                onRegister={handleRegister}
+            />
+        )
+    }
+
+
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
@@ -57,7 +119,7 @@ function GetStarted() {
                                         Start your journey with us and connect with trusted suppliers across India
                                     </p>
                                 </div>
-                                <button className="w-full bg-orange-600 text-white py-4 px-8 rounded-xl font-semibold text-lg hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2">
+                                <button onClick={() => navreg()} className="w-full bg-orange-600 text-white py-4 px-8 rounded-xl font-semibold text-lg hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2">
                                     <span>Register Now</span>
                                     <ArrowRight className="w-5 h-5" />
                                 </button>

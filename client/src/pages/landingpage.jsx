@@ -10,8 +10,10 @@ import Footer from '../components/Footer';
 import StorePage from '../components/StorePage';
 import LoginPage from '../components/LoginPage';
 import RegisterPage from '../components/RegisterPage';
+import {useNavigate} from "react-router-dom";
 
 function LandingPage() {
+    const navigate=useNavigate();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState('home');
     const [user, setUser] = useState(null);
@@ -28,6 +30,7 @@ function LandingPage() {
 
     const handleBackToHome = () => {
         setCurrentPage('home');
+        //navigate('/');
     };
 
     const handleLogin = (userData) => {
