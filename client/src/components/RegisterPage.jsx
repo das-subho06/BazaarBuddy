@@ -153,15 +153,15 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={() => setField('userType','customer')}
+                                    onClick={() => setField('userType','supplier')}
                                     className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg transition-all ${
-                                        formData.userType === 'customer'
+                                        formData.userType === 'supplier'
                                             ? 'bg-orange-500 text-white shadow-md'
                                             : 'text-gray-600 hover:text-gray-900'
                                     }`}
                                 >
                                     <ShoppingCart className="w-5 h-5" />
-                                    <span className="font-medium">Customer</span>
+                                    <span className="font-medium">Supplier</span>
                                 </button>
                             </div>
                         </div>
@@ -375,7 +375,7 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
                                 type="submit"
                                 className="w-full bg-orange-500 text-white py-3 px-4 rounded-xl hover:bg-orange-600 transition-colors font-semibold"
                             >
-                                Create {formData.userType === 'vendor' ? 'Vendor' : 'Customer'} Account
+                                Create {formData.userType === 'vendor' ? 'Vendor' : 'Supplier'} Account
                             </button>
                         </form>
 
