@@ -79,32 +79,40 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
     setField(name, value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;}
-      const { confirmPassword, ...dataToSend } = formData;
-    try {
-      const res = await axios.post(
-        'http://localhost:5000/api/auth/register',
-        formData,
-        { withCredentials: true }
-        
-      );
-      if (res.status === 201) {
-        // alert('Registered successfully!');
-        navigate('/phoneAuthentication'); 
-        resetForm();
-        // onSwitchToLogin(); // Redirect to login
-        
-      }
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.message || 'Something went wrong');
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
+        // Format phone number to E.164 here
+        const formattedPhone = `+91${formData.phone.replace(/\D/g, '')}`;
+
+        const dataToSend = {
+            ...formData,
+            phone: formattedPhone,           // send formatted phone here
+        };
+
+        try {
+            const res = await axios.post(
+                'http://localhost:5000/api/auth/register',
+                dataToSend,                   // use formatted data
+                { withCredentials: true }
+            );
+
+            if (res.status === 201) {
+                navigate('/phoneAuthentication');
+                resetForm();
+            }
+        } catch (err) {
+            console.error(err);
+            setError(err.response?.data?.message || 'Something went wrong');
+        }
+    };
+
     const navigate = useNavigate();
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-yellow-50">
