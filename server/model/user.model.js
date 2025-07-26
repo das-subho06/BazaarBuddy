@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 const userSchema = new mongoose.Schema({
  userType: 
  { type: String, 
-    enum: ['vendor', 'customer'], 
+    enum: ['vendor', 'supplier'],
     required: true },
   fullName: 
   { type: String, 
