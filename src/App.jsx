@@ -8,10 +8,13 @@ import CommunitySection from './components/CommunitySection';
 import TestimonialsSection from './components/TestimonialsSection';
 import Footer from './components/Footer';
 import StorePage from './components/StorePage';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 
 function App() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState('home');
+    const [user, setUser] = useState(null);
     const [searchData, setSearchData] = useState({
         query: '',
         location: '',
@@ -27,6 +30,24 @@ function App() {
         setCurrentPage('home');
     };
 
+    const handleLogin = (userData) => {
+        // In a real app, you would authenticate with a backend
+        setUser(userData);
+        setCurrentPage('home');
+        console.log('User logged in:', userData);
+    };
+
+    const handleRegister = (userData) => {
+        // In a real app, you would register with a backend
+        setUser(userData);
+        setCurrentPage('home');
+        console.log('User registered:', userData);
+    };
+
+    const handleLogout = () => {
+        setUser(null);
+        setCurrentPage('home');
+    };
     if (currentPage === 'store') {
         return (
             <StorePage
@@ -38,9 +59,35 @@ function App() {
         );
     }
 
+    if (currentPage === 'login') {
+        return (
+            <LoginPage
+                onBack={handleBackToHome}
+                onSwitchToRegister={() => setCurrentPage('register')}
+                onLogin={handleLogin}
+            />
+        );
+    }
+
+    if (currentPage === 'register') {
+        return (
+            <RegisterPage
+                onBack={handleBackToHome}
+                onSwitchToLogin={() => setCurrentPage('login')}
+                onRegister={handleRegister}
+            />
+        );
+    }
     return (
         <div className="min-h-screen">
-            <Header mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+            <Header 
+                mobileMenuOpen={mobileMenuOpen} 
+                setMobileMenuOpen={setMobileMenuOpen}
+                user={user}
+                onLogin={() => setCurrentPage('login')}
+                onRegister={() => setCurrentPage('register')}
+                onLogout={handleLogout}
+            />
             <HeroSection />
             <StatsSection />
             <FeaturesSection />
