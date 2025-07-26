@@ -1,39 +1,27 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Mail, Lock, Eye, EyeOff, ShoppingCart, Store, User, Phone, MapPin } from 'lucide-react';
-
+import { useAuthStore } from '../store/authStore';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
-    const [userType, setUserType] = useState('vendor');
-    const [formData, setFormData] = useState({
-        fullName: '',
-        email: '',
-        phone: '',
-        password: '',
-        confirmPassword: '',
-        businessName: '',
-        location: '',
-        category: ''
-    });
+    // const [userType, setUserType] = useState('');
+    const {formData,setField,resetForm,error,setError, dataToSend} = useAuthStore();
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState({});
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        // Clear error when user starts typing
-        if (errors[name]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
-        }
+       const { name, value } = e.target;
+    setField(name, value);
     };
 
     const validateForm = () => {
         const newErrors = {};
+
+        if (!formData.userType) {
+            newErrors.userType = 'Please select a user type';
+        }
         
         if (!formData.fullName) {
             newErrors.fullName = 'Full name is required';
@@ -63,7 +51,7 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
             newErrors.confirmPassword = 'Passwords do not match';
         }
         
-        if (userType === 'vendor') {
+        if (formData.userType === 'vendor') {
             if (!formData.businessName) {
                 newErrors.businessName = 'Business name is required';
             }
@@ -79,13 +67,45 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (validateForm()) {
-            onRegister({ ...formData, userType });
-        }
-    };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     if (validateForm()) {
+    //         onRegister({ ...formData, userType });
+    //     }
+    // };
 
+    const handleChange = (e) => {
+    const { name, value } = e.target;
+    setField(name, value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;}
+      const { confirmPassword, ...dataToSend } = formData;
+    try {
+      const res = await axios.post(
+        'http://localhost:5000/api/auth/register',
+        formData,
+        { withCredentials: true }
+        
+      );
+      if (res.status === 201) {
+        // alert('Registered successfully!');
+        navigate('/phoneAuthentication'); 
+        resetForm();
+        // onSwitchToLogin(); // Redirect to login
+        
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || 'Something went wrong');
+    }
+  };
+    const navigate = useNavigate();
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-yellow-50">
             {/* Header */}
@@ -121,9 +141,9 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
                             <div className="flex bg-gray-100 rounded-xl p-1">
                                 <button
                                     type="button"
-                                    onClick={() => setUserType('vendor')}
+                                    onClick={() => setField('userType','vendor')}
                                     className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg transition-all ${
-                                        userType === 'vendor'
+                                        formData.userType === 'vendor'
                                             ? 'bg-orange-500 text-white shadow-md'
                                             : 'text-gray-600 hover:text-gray-900'
                                     }`}
@@ -133,9 +153,9 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={() => setUserType('customer')}
+                                    onClick={() => setField('userType','customer')}
                                     className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg transition-all ${
-                                        userType === 'customer'
+                                        formData.userType === 'customer'
                                             ? 'bg-orange-500 text-white shadow-md'
                                             : 'text-gray-600 hover:text-gray-900'
                                     }`}
@@ -198,7 +218,7 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
                                     <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                                     <input
                                         type="tel"
-                                        name="phone"
+                                      name ="phone"
                                         value={formData.phone}
                                         onChange={handleInputChange}
                                         className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all ${
@@ -211,7 +231,7 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
                             </div>
 
                             {/* Vendor-specific fields */}
-                            {userType === 'vendor' && (
+                            {formData.userType === 'vendor' && (
                                 <>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -355,7 +375,7 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
                                 type="submit"
                                 className="w-full bg-orange-500 text-white py-3 px-4 rounded-xl hover:bg-orange-600 transition-colors font-semibold"
                             >
-                                Create {userType === 'vendor' ? 'Vendor' : 'Customer'} Account
+                                Create {formData.userType === 'vendor' ? 'Vendor' : 'Customer'} Account
                             </button>
                         </form>
 

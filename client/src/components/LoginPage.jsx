@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Phone, Lock, Eye, EyeOff, ShoppingCart, Store } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 export default function LoginPage({ onBack, onSwitchToRegister, onLogin }) {
     const [userType, setUserType] = useState('vendor');
     const [formData, setFormData] = useState({
@@ -51,7 +51,7 @@ export default function LoginPage({ onBack, onSwitchToRegister, onLogin }) {
             onLogin({ ...formData, userType });
         }
     };
-
+    const navigate = useNavigate();
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-yellow-50">
             {/* Header */}
@@ -190,7 +190,7 @@ export default function LoginPage({ onBack, onSwitchToRegister, onLogin }) {
                             <p className="text-gray-600">
                                 Don't have an account?{' '}
                                 <button
-                                    onClick={onSwitchToRegister}
+                                    onClick={()=> navigate('/register')}
                                     className="text-orange-500 hover:text-orange-600 font-semibold transition-colors"
                                 >
                                     Sign up here
