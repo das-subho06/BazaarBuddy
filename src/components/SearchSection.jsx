@@ -4,6 +4,35 @@ import { MapPin, Calendar, Search } from 'lucide-react';
 export default function SearchSection() {
     const [location, setLocation] = useState('');
     const [category, setCategory] = useState('');
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
+    const indianCities = [
+        'Kolkata', 'Howrah', 'Burdwan', 'Delhi', 'Mumbai', 'Chennai', 'Bangalore',
+        'Hyderabad', 'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow', 'Kanpur', 'Nagpur',
+        'Indore', 'Thane', 'Bhopal', 'Visakhapatnam', 'Pimpri-Chinchwad', 'Patna',
+        'Vadodara', 'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik', 'Faridabad',
+        'Meerut', 'Rajkot', 'Kalyan-Dombivali', 'Vasai-Virar', 'Varanasi',
+        'Srinagar', 'Aurangabad', 'Dhanbad', 'Amritsar', 'Navi Mumbai',
+        'Allahabad', 'Ranchi', 'Haora', 'Coimbatore', 'Jabalpur', 'Gwalior',
+        'Vijayawada', 'Jodhpur', 'Madurai', 'Raipur', 'Kota', 'Guwahati',
+        'Chandigarh', 'Solapur', 'Hubli-Dharwad', 'Bareilly', 'Moradabad',
+        'Mysore', 'Gurgaon', 'Aligarh', 'Jalandhar', 'Tiruchirappalli',
+        'Bhubaneswar', 'Salem', 'Mira-Bhayandar', 'Warangal', 'Thiruvananthapuram'
+    ];
+
+    const filteredCities = indianCities.filter(city =>
+        city.toLowerCase().includes(location.toLowerCase())
+    ).slice(0, 8);
+
+    const handleLocationChange = (e) => {
+        setLocation(e.target.value);
+        setShowSuggestions(true);
+    };
+
+    const handleCitySelect = (city) => {
+        setLocation(city);
+        setShowSuggestions(false);
+    };
 
     const floatingElements = [
         { emoji: '🌶️', position: 'top-10 left-10', delay: '0s' },
@@ -40,7 +69,7 @@ export default function SearchSection() {
 
                 <div className="bg-white rounded-3xl shadow-2xl p-8">
                     <div className="grid md:grid-cols-3 gap-6">
-                        <div className="space-y-2">
+                        <div className="space-y-2 relative">
                             <label className="text-sm font-semibold text-gray-700 flex items-center">
                                 <MapPin className="w-4 h-4 mr-2 text-orange-500" />
                                 Location
@@ -49,9 +78,28 @@ export default function SearchSection() {
                                 type="text"
                                 placeholder="Enter your city"
                                 value={location}
-                                onChange={(e) => setLocation(e.target.value)}
+                                onChange={handleLocationChange}
+                                onFocus={() => setShowSuggestions(true)}
+                                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                                 className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all"
                             />
+                            
+                            {/* City Suggestions Dropdown */}
+                            {showSuggestions && location && filteredCities.length > 0 && (
+                                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-xl shadow-lg z-10 mt-1 max-h-64 overflow-y-auto">
+                                    {filteredCities.map((city, index) => (
+                                        <button
+                                            key={index}
+                                            type="button"
+                                            onClick={() => handleCitySelect(city)}
+                                            className="w-full text-left px-4 py-3 hover:bg-orange-50 hover:text-orange-600 transition-colors border-b border-gray-100 last:border-b-0 flex items-center space-x-2"
+                                        >
+                                            <MapPin className="w-4 h-4 text-gray-400" />
+                                            <span>{city}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         <div className="space-y-2">
