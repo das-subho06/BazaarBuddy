@@ -201,128 +201,6 @@ function StorePageSeller() {
       </div>
   );
 
-  const AddProductForm = () => {
-    return (
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-6">Add New Product</h3>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
-              <input
-                  type="text"
-                  name="name"
-                  value={newProduct.name}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
-                  placeholder="Enter product name"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-              <select
-                  name="category"
-                  value={newProduct.category}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
-              >
-                <option value="Spices">Spices</option>
-                <option value="Vegetables">Vegetables</option>
-                <option value="Packaging">Packaging</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Price per kg (₹) *</label>
-              <input
-                  type="number"
-                  name="price"
-                  value={newProduct.price}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
-                  placeholder="0"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Stock Quantity *</label>
-              <input
-                  type="number"
-                  name="stock"
-                  value={newProduct.stock}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
-                  placeholder="0"
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Product Description</label>
-              <textarea
-                  rows={3}
-                  name="description"
-                  value={newProduct.description}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
-                  placeholder="Describe your product..."
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-orange-500 transition-all duration-300 hover:scale-105">
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                    id="image-upload"
-                />
-                <label htmlFor="image-upload" className="cursor-pointer">
-                  {newProduct.image ? (
-                      <img src={newProduct.image} alt="Preview" className="w-32 h-32 object-cover mx-auto rounded-lg mb-4" />
-                  ) : (
-                      <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  )}
-                  <p className="text-gray-600">Click to upload or drag and drop</p>
-                  <p className="text-sm text-gray-500">PNG, JPG up to 10MB</p>
-                </label>
-              </div>
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Delivery Locations</label>
-              <div className="flex flex-wrap gap-2 mb-3">
-                {['Mumbai', 'Delhi', 'Pune', 'Bangalore', 'Chennai'].map((city) => (
-                    <label
-                        key={city}
-                        className="flex items-center space-x-2 bg-gray-50 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-300 hover:scale-105 cursor-pointer"
-                    >
-                      <input
-                          type="checkbox"
-                          className="text-orange-600"
-                          checked={newProduct.locations.includes(city)}
-                          onChange={(e) => handleLocationChange(city, e.target.checked)}
-                      />
-                      <span className="text-sm">{city}</span>
-                    </label>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="flex space-x-4 mt-6">
-            <button type={"submit"}
-                onSubmit={handleAddProduct}
-                className="flex-1 bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg"
-            >
-              Add Product
-            </button>
-            <button
-                onClick={() => setShowAddProduct(false)}
-                className="flex-1 bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300 hover:scale-105"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-    );
-  };
-
   return (
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
@@ -447,16 +325,127 @@ function StorePageSeller() {
                 </div>
 
                 {/* Add Product Form */}
-                {/*   {showAddProduct && <AddProductForm />} */}
                 {showAddProduct && (
-                    <AddProductForm
-                        newProduct={newProduct}
-                        handleInputChange={handleInputChange}
-                        handleLocationChange={handleLocationChange}
-                        handleImageUpload={handleImageUpload}
-                        handleAddProduct={handleAddProduct}
-                        setShowAddProduct={setShowAddProduct}
-                    />
+                    <div className="bg-white rounded-xl shadow-lg p-6">
+                      <h3 className="text-xl font-bold text-gray-800 mb-6">Add New Product</h3>
+                      <form onSubmit={handleAddProduct}>
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={newProduct.name}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                                placeholder="Enter product name"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                            <select
+                                name="category"
+                                value={newProduct.category}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                            >
+                              <option value="Spices">Spices</option>
+                              <option value="Vegetables">Vegetables</option>
+                              <option value="Packaging">Packaging</option>
+                              <option value="Other">Other</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Price per kg (₹) *</label>
+                            <input
+                                type="number"
+                                name="price"
+                                value={newProduct.price}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                                placeholder="0"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Stock Quantity *</label>
+                            <input
+                                type="number"
+                                name="stock"
+                                value={newProduct.stock}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                                placeholder="0"
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Product Description</label>
+                            <textarea
+                                rows={3}
+                                name="description"
+                                value={newProduct.description}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+                                placeholder="Describe your product..."
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
+                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-orange-500 transition-all duration-300 hover:scale-105">
+                              <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={handleImageUpload}
+                                  className="hidden"
+                                  id="image-upload"
+                              />
+                              <label htmlFor="image-upload" className="cursor-pointer">
+                                {newProduct.image ? (
+                                    <img src={newProduct.image} alt="Preview" className="w-32 h-32 object-cover mx-auto rounded-lg mb-4" />
+                                ) : (
+                                    <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                                )}
+                                <p className="text-gray-600">Click to upload or drag and drop</p>
+                                <p className="text-sm text-gray-500">PNG, JPG up to 10MB</p>
+                              </label>
+                            </div>
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Delivery Locations</label>
+                            <div className="flex flex-wrap gap-2 mb-3">
+                              {['Mumbai', 'Delhi', 'Pune', 'Bangalore', 'Chennai'].map((city) => (
+                                  <label
+                                      key={city}
+                                      className="flex items-center space-x-2 bg-gray-50 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-300 hover:scale-105 cursor-pointer"
+                                  >
+                                    <input
+                                        type="checkbox"
+                                        className="text-orange-600"
+                                        checked={newProduct.locations.includes(city)}
+                                        onChange={(e) => handleLocationChange(city, e.target.checked)}
+                                    />
+                                    <span className="text-sm">{city}</span>
+                                  </label>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex space-x-4 mt-6">
+                          <button
+                              type="submit"
+                              className="flex-1 bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                          >
+                            Add Product
+                          </button>
+                          <button
+                              type="button"
+                              onClick={() => setShowAddProduct(false)}
+                              className="flex-1 bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300 hover:scale-105"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    </div>
                 )}
 
                 {/* Products List */}
