@@ -16,13 +16,17 @@ import {
   BarChart3,
   Star,
   Clock,
-  CheckCircle
+  CheckCircle,
+  User,
+  LogOut,
+  ChevronDown
 } from 'lucide-react';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function StorePageSeller() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -53,13 +57,98 @@ function StorePageSeller() {
   ]);
 
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    category: 'Spices',
+    price: '',
+    stock: '',
+    description: '',
+    image: '',
+    locations: []
+  });
 
   const stats = [
-    { label: 'Total Products', value: '12', icon: Package, color: 'bg-blue-500' },
+    { label: 'Total Products', value: products.length.toString(), icon: Package, color: 'bg-blue-500' },
     { label: 'Total Orders', value: '234', icon: ShoppingCart, color: 'bg-green-500' },
     { label: 'Revenue', value: '₹45,670', icon: IndianRupee, color: 'bg-orange-500' },
     { label: 'Active Locations', value: '8', icon: MapPin, color: 'bg-purple-500' }
   ];
+
+  const handleDeleteProduct = (productId) => {
+    setProducts(products.filter(product => product.id !== productId));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleLocationChange = (location, checked) => {
+    setNewProduct(prev => ({
+      ...prev,
+      locations: checked
+          ? [...prev.locations, location]
+          : prev.locations.filter(loc => loc !== location)
+    }));
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setNewProduct(prev => ({
+          ...prev,
+          image: e.target.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleAddProduct = (e) => {
+    e.preventDefault();
+    if (!newProduct.name || !newProduct.price || !newProduct.stock) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    const product = {
+      id: Date.now(),
+      name: newProduct.name,
+      category: newProduct.category,
+      price: parseFloat(newProduct.price),
+      stock: parseInt(newProduct.stock),
+      image: newProduct.image || "https://images.pexels.com/photos/4198015/pexels-photo-4198015.jpeg?auto=compress&cs=tinysrgb&w=300",
+      description: newProduct.description,
+      locations: newProduct.locations,
+      rating: 0,
+      orders: 0,
+      status: 'active'
+    };
+
+    setProducts(prev => [...prev, product]);
+    setNewProduct({
+      name: '',
+      category: 'Spices',
+      price: '',
+      stock: '',
+      description: '',
+      image: '',
+      locations: []
+    });
+    setShowAddProduct(false);
+  };
+
+  const handleLogout = () => {
+    // Add your logout logic here
+    console.log('Logging out...');
+    // navigate('/'); // Uncomment when you want to redirect to landing page
+    setShowProfileDropdown(false);
+  };
 
   const ProductCard = ({ product }) => (
       <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 p-6">
@@ -89,7 +178,10 @@ function StorePageSeller() {
                 <button className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 hover:scale-110">
                   <Edit3 className="w-4 h-4" />
                 </button>
-                <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110">
+                <button
+                    onClick={() => handleDeleteProduct(product.id)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110"
+                >
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
@@ -109,43 +201,54 @@ function StorePageSeller() {
       </div>
   );
 
-
-
-  //ADD PRODUCT
   const AddProductForm = () => {
     return (
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h3 className="text-xl font-bold text-gray-800 mb-6">Add New Product</h3>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Product Name *</label>
               <input
                   type="text"
+                  name="name"
+                  value={newProduct.name}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
                   placeholder="Enter product name"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-              <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300">
-                <option>Spices</option>
-                <option>Vegetables</option>
-                <option>Packaging</option>
-                <option>Other</option>
+              <select
+                  name="category"
+                  value={newProduct.category}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+              >
+                <option value="Spices">Spices</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Packaging">Packaging</option>
+                <option value="Other">Other</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Price per kg (₹)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Price per kg (₹) *</label>
               <input
                   type="number"
+                  name="price"
+                  value={newProduct.price}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
                   placeholder="0"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Stock Quantity</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Stock Quantity *</label>
               <input
                   type="number"
+                  name="stock"
+                  value={newProduct.stock}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
                   placeholder="0"
               />
@@ -154,6 +257,9 @@ function StorePageSeller() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Product Description</label>
               <textarea
                   rows={3}
+                  name="description"
+                  value={newProduct.description}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
                   placeholder="Describe your product..."
               />
@@ -161,9 +267,22 @@ function StorePageSeller() {
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-orange-500 transition-all duration-300 hover:scale-105">
-                <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600">Click to upload or drag and drop</p>
-                <p className="text-sm text-gray-500">PNG, JPG up to 10MB</p>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    id="image-upload"
+                />
+                <label htmlFor="image-upload" className="cursor-pointer">
+                  {newProduct.image ? (
+                      <img src={newProduct.image} alt="Preview" className="w-32 h-32 object-cover mx-auto rounded-lg mb-4" />
+                  ) : (
+                      <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  )}
+                  <p className="text-gray-600">Click to upload or drag and drop</p>
+                  <p className="text-sm text-gray-500">PNG, JPG up to 10MB</p>
+                </label>
               </div>
             </div>
             <div className="md:col-span-2">
@@ -174,7 +293,12 @@ function StorePageSeller() {
                         key={city}
                         className="flex items-center space-x-2 bg-gray-50 px-3 py-2 rounded-lg hover:bg-orange-50 transition-all duration-300 hover:scale-105 cursor-pointer"
                     >
-                      <input type="checkbox" className="text-orange-600" />
+                      <input
+                          type="checkbox"
+                          className="text-orange-600"
+                          checked={newProduct.locations.includes(city)}
+                          onChange={(e) => handleLocationChange(city, e.target.checked)}
+                      />
                       <span className="text-sm">{city}</span>
                     </label>
                 ))}
@@ -182,11 +306,14 @@ function StorePageSeller() {
             </div>
           </div>
           <div className="flex space-x-4 mt-6">
-            <button className="flex-1 bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+            <button type={"submit"}
+                onSubmit={handleAddProduct}
+                className="flex-1 bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            >
               Add Product
             </button>
             <button
-                onClick={() => setShowAddProduct(false)} // 👈 Ensure `setShowAddProduct` exists in parent scope
+                onClick={() => setShowAddProduct(false)}
                 className="flex-1 bg-gray-200 text-gray-800 py-3 px-6 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300 hover:scale-105"
             >
               Cancel
@@ -195,9 +322,6 @@ function StorePageSeller() {
         </div>
     );
   };
-
-
-
 
   return (
       <div className="min-h-screen bg-gray-50">
@@ -221,8 +345,37 @@ function StorePageSeller() {
                 <button className="p-2 text-gray-600 hover:text-orange-600 transition-all duration-300 hover:scale-110">
                   <Settings className="w-5 h-5" />
                 </button>
-                <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-white font-semibold">
-                  S
+                <div className="relative">
+                  <button
+                      onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                      className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                  >
+                    <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-white">
+                      <User className="w-4 h-4" />
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-gray-600" />
+                  </button>
+
+                  {showProfileDropdown && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                        <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-2">
+                          <User className="w-4 h-4" />
+                          <span>Profile</span>
+                        </button>
+                        <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-2">
+                          <Settings className="w-4 h-4" />
+                          <span>Settings</span>
+                        </button>
+                        <hr className="my-2" />
+                        <button
+                            onClick={handleLogout}
+                            className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors flex items-center space-x-2"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span>Logout</span>
+                        </button>
+                      </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -294,7 +447,17 @@ function StorePageSeller() {
                 </div>
 
                 {/* Add Product Form */}
-                {showAddProduct && <AddProductForm />}
+                {/*   {showAddProduct && <AddProductForm />} */}
+                {showAddProduct && (
+                    <AddProductForm
+                        newProduct={newProduct}
+                        handleInputChange={handleInputChange}
+                        handleLocationChange={handleLocationChange}
+                        handleImageUpload={handleImageUpload}
+                        handleAddProduct={handleAddProduct}
+                        setShowAddProduct={setShowAddProduct}
+                    />
+                )}
 
                 {/* Products List */}
                 <div className="space-y-4">
