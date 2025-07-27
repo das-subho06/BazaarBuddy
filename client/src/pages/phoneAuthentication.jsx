@@ -51,7 +51,7 @@ const {error, isLoading, verifyPhone}=useAuthStore()
       await verifyPhone(verificationCode)
      
       toast.success("Phone verified successfully")
-       navigate("/home")
+       navigate("/login")
 
     }catch(error){
        console.log(error)
