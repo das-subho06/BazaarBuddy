@@ -361,8 +361,11 @@ export default function StorePage({ searchQuery, location, category, onBack }) {
                             </div>
                         </div>
                         <div className="flex items-center space-x-4">
-                            <button className="p-2 text-gray-600 hover:text-orange-600 transition-all duration-300 hover:scale-110">
-                                <Settings className="w-5 h-5" />
+                            <button onClick={() => setShowCart(!showCart)}>
+                                <ShoppingCart />
+                                {cartItemCount > 0 && (
+                                    <span className="cart-count">{cartItemCount}</span>
+                                )}
                             </button>
                             <div className="relative">
                                 <button

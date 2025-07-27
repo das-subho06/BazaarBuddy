@@ -74,10 +74,10 @@ This project is licensed under the [MIT License](LICENSE).
 
 Developed by:
 
-- **Team Cryptix** – [GitHub](https://github.com/das-subho06)
+- **Team Cryptix** – [GitHub](https://github.com/GhostMitra)
 - Team Members
     - Subhashree Das
-    - Debarghya Mitra
+    - Debarghaya Mitra
     - Pratyusha Nandi
     - Rounak Bhattacharya
     - Arka Ghosh Dastider
