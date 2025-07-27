@@ -295,11 +295,12 @@ export default function StorePage({ searchQuery, location, category, onBack }) {
                         <div className="flex justify-between items-center mb-4">
                             <span className="text-lg font-bold">Total: ₹{cartTotal}</span>
                         </div>
-                        <button className="w-full bg-orange-500 text-white py-3 rounded-xl hover:bg-orange-600 transition-colors">
-                            <span onClick={handleCheckout}>Proceed to Checkout</span>
-                                state: { cart, cartTotal } 
-                            })}>Proceed to Checkout</span>
+                        <button
+                            onClick={() => handleCheckout()}
+                        >
+                            Proceed to Checkout
                         </button>
+
                     </div>
                 )}
             </div>
