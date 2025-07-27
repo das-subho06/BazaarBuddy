@@ -48,7 +48,7 @@ Visit `http://localhost:5173` in your browser to access the app.
 
 ## 📸 Screenshots
 
-> ![alt text](image.png) ![alt text](image-1.png)
+> ![alt text](image.jpg) ![alt text](image-1.jpg)
 
 ---
 
