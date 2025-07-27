@@ -33,6 +33,8 @@ function LandingPage() {
         //navigate('/');
     };
 
+
+
     const handleLogin = (userData) => {
         // In a real app, you would authenticate with a backend
         setUser(userData);

@@ -22,7 +22,9 @@ import {
 import LoginPage from "../components/LoginPage.jsx";
 
 
-function GetStarted({handleBackToHome,setCurrentPage,handleRegister}) {
+function GetStarted() {
+    const [user, setUser] = useState(null);
+    const [currentPage, setCurrentPage] = useState('home');
     // const [currentPage, setCurrentPage] = useState('home');
     // const handleRegister =async (userData) => {
     //     // In a real app, you would register with a backend
@@ -52,10 +54,45 @@ function GetStarted({handleBackToHome,setCurrentPage,handleRegister}) {
     //         alert('Something went wrong. Please try again.');
     //     }
     // };
-    // const handleBackToHome = () => {
-    //     setCurrentPage('home');
-    //     //navigate('/');
-    // };
+    const handleBackToHome = () => {
+         setCurrentPage('home');
+         //navigate('/');
+    };
+    const handleLogin = (userData) => {
+        // In a real app, you would authenticate with a backend
+        setUser(userData);
+        setCurrentPage('home');
+        console.log('User logged in:', userData);
+    };
+
+    const handleRegister =async (userData) => {
+        // In a real app, you would register with a backend
+        // setUser(userData);
+        // setCurrentPage('home');
+        // console.log('User registered:', userData);
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Registration successful!');
+                setUser(data.user); // Adjust based on your backend response
+                setCurrentPage('home');
+            } else {
+                alert(`Registration failed: ${data.message}`);
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            alert('Something went wrong. Please try again.');
+        }
+    };
     //
     //
 
@@ -69,6 +106,7 @@ function GetStarted({handleBackToHome,setCurrentPage,handleRegister}) {
                 onBack={handleBackToHome}
                 onSwitchToRegister={() => setCurrentPage('register')}
                 onLogin={handleLogin}
+
             />
         );
     }
@@ -102,8 +140,8 @@ function GetStarted({handleBackToHome,setCurrentPage,handleRegister}) {
                             <a href="#" className="text-gray-600 hover:text-orange-600 transition-colors">Suppliers</a>
                             <a href="#" className="text-gray-600 hover:text-orange-600 transition-colors">Pricing</a>
                             <a href="#" className="text-gray-600 hover:text-orange-600 transition-colors">Contact</a>
-                            <button onClick={() => navigate('/login')} className="text-gray-600 hover:text-orange-600 transition-all duration-300 hover:scale-105">Login</button>
-                            <button onClick={() => navigate('/register')} className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg">Register</button>
+                            <button onClick={() => setCurrentPage('login')} className="text-gray-600 hover:text-orange-600 transition-all duration-300 hover:scale-105">Login</button>
+                            <button onClick={() => setCurrentPage('register')} className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg">Register</button>
                         </nav>
                     </div>
                 </div>
@@ -127,7 +165,7 @@ function GetStarted({handleBackToHome,setCurrentPage,handleRegister}) {
                                         Start your journey with us and connect with trusted suppliers across India
                                     </p>
                                 </div>
-                                <button onClick={() => navigate('/register')} className="w-full bg-orange-600 text-white py-4 px-8 rounded-xl font-semibold text-lg hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2">
+                                <button onClick={() => setCurrentPage('register')} className="w-full bg-orange-600 text-white py-4 px-8 rounded-xl font-semibold text-lg hover:bg-orange-700 transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2">
                                     <span>Register Now</span>
                                     <ArrowRight className="w-5 h-5" />
                                 </button>
@@ -141,7 +179,7 @@ function GetStarted({handleBackToHome,setCurrentPage,handleRegister}) {
                                         Welcome back! Continue managing your business with ease
                                     </p>
                                 </div>
-                                <button onClick={() => navigate('/login')} className="w-full bg-gray-800 text-white py-3 px-6 rounded-xl font-semibold hover:bg-gray-900 transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2">
+                                <button onClick={() => setCurrentPage('login')} className="w-full bg-gray-800 text-white py-3 px-6 rounded-xl font-semibold hover:bg-gray-900 transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center space-x-2">
                                     <span>Login</span>
                                     <ArrowRight className="w-5 h-5" />
                                 </button>
