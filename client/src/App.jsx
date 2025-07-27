@@ -11,6 +11,7 @@ import './App.css';
 import GetStarted from "./pages/getstarted.jsx";
 import StorePage from "./components/StorePage.jsx";
 import StorePageSeller from "./components/StorePageSeller.jsx";
+import SupplierSubscription from "./components/SupplierSubscription.jsx";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/storepage' element={<StorePage/>}/>
                     <Route path='/storepageseller' element={<StorePageSeller/>}/>
+                    <Route path='/supplierSubscription' element={<SupplierSubscription/>}/>
             </Routes>
                  <Toaster/>
         </div>
