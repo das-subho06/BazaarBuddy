@@ -12,6 +12,8 @@ import GetStarted from "./pages/getstarted.jsx";
 import StorePage from "./components/StorePage.jsx";
 import StorePageSeller from "./components/StorePageSeller.jsx";
 import SupplierSubscription from "./components/SupplierSubscription.jsx";
+import CheckoutPage from "./components/CheckoutPage.jsx";
+import PaymentProcessingPage from "./components/PaymentProcessingPage.jsx";
 
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
                     <Route path='/storepage' element={<StorePage/>}/>
                     <Route path='/storepageseller' element={<StorePageSeller/>}/>
                     <Route path='/supplierSubscription' element={<SupplierSubscription/>}/>
+                    <Route path='/checkout' element={<CheckoutPage/>}/>
+                    <Route path='/payment-processing' element={<PaymentProcessingPage/>}/>
             </Routes>
                  <Toaster/>
         </div>

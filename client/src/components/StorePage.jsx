@@ -296,7 +296,9 @@ export default function StorePage({ searchQuery, location, category, onBack }) {
                             <span className="text-lg font-bold">Total: ₹{cartTotal}</span>
                         </div>
                         <button className="w-full bg-orange-500 text-white py-3 rounded-xl hover:bg-orange-600 transition-colors">
-                            Proceed to Checkout
+                            <span onClick={handleCheckout}>Proceed to Checkout</span>
+                                state: { cart, cartTotal } 
+                            })}>Proceed to Checkout</span>
                         </button>
                     </div>
                 )}
@@ -304,6 +306,19 @@ export default function StorePage({ searchQuery, location, category, onBack }) {
         </div>
     );
     const navigate=useNavigate();
+    
+    // Add this function to handle checkout navigation
+    const handleCheckout = () => {
+        navigate('/checkout', {
+            state: {
+                cart,
+                cartTotal,
+                onBack: () => setShowCart(true)
+            }
+        });
+        setShowCart(false);
+    };
+    
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
     const handleLogout = () => {
         // Add your logout logic here
