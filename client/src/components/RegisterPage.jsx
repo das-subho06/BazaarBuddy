@@ -107,11 +107,11 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
     function navToLogin() {
         if(formData.userType === 'vendor')
         {
-            navigate('/login');
+            navigate('/phoneAuthentication');
         }
         else
         {
-            navigate('/SupplierSubscription');
+            navigate('/phoneAuthentication');
         }
 
     }

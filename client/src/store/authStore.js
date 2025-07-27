@@ -103,6 +103,7 @@ const { confirmPassword, ...dataToSend } = {
       );
 
       set({
+        
         user: response.data.user || null,
         isAuthenticated: true,
         isLoading: false

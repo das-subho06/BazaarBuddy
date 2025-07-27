@@ -10,7 +10,7 @@ function PhoneAuthentication() {
   const inputRefs=useRef([]);
   
 
-const {error, isLoading, verifyPhone}=useAuthStore()
+const {formData,error, isLoading, verifyPhone}=useAuthStore()
 
 
 
@@ -48,10 +48,22 @@ const {error, isLoading, verifyPhone}=useAuthStore()
     alert(`Verification code: ${verificationCode}`)
    
     try{
-      await verifyPhone(verificationCode)
-     
+      const responseData=await verifyPhone(verificationCode)
+      
+       
+    console.log("User Type:", formData.userType);
+
+   
+
       toast.success("Phone verified successfully")
-       navigate("/login")
+     
+      
+      //  navigate("/login")
+      if (formData.userType === "supplier") {
+      navigate("/supplierSubscription");
+    } else {
+      navigate("/login");
+    }
 
     }catch(error){
        console.log(error)

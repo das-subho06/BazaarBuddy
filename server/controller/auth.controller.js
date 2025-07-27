@@ -94,7 +94,8 @@ export const verifyPhone = async (req, res) => {
     await user.save();
 
     // Return success with optional user data
-    res.status(200).json({ success: true, message: 'Phone number verified successfully', user });
+    res.status(200).json({ success: true, message: 'Phone number verified successfully', 
+      user});
   } catch (error) {
     console.error('Verify Phone Error:', error);
     res.status(500).json({ message: 'Server error', error });
