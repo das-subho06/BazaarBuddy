@@ -353,11 +353,7 @@ export default function StorePage({ searchQuery, location, category, onBack }) {
                 <div className="container mx-auto px-4 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
-                            <button onClick={()=>{navigate('/')}}   className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-all duration-300 hover:scale-105">
-                                <ArrowLeft className="w-5 h-5" />
-                                <span>Back to Home</span>
-                            </button>
-                            <div className="h-6 w-px bg-gray-300"></div>
+
                             <div className="flex items-center space-x-2">
                                 <ShoppingCart className="w-8 h-8 text-orange-600" />
                                 <span className="text-2xl font-bold text-gray-800">BazaarBuddy</span>
@@ -365,8 +361,11 @@ export default function StorePage({ searchQuery, location, category, onBack }) {
                             </div>
                         </div>
                         <div className="flex items-center space-x-4">
-                            <button className="p-2 text-gray-600 hover:text-orange-600 transition-all duration-300 hover:scale-110">
-                                <Settings className="w-5 h-5" />
+                            <button onClick={() => setShowCart(!showCart)}>
+                                <ShoppingCart />
+                                {cartItemCount > 0 && (
+                                    <span className="cart-count">{cartItemCount}</span>
+                                )}
                             </button>
                             <div className="relative">
                                 <button

@@ -1,4 +1,16 @@
 {
+<<<<<<< HEAD
+=======
+  "name": "bazaarbuddy-sserver",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+>>>>>>> 2b2ed92e0ce841f000c72ec92620374dcfe2cd15
   "dependencies": {
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
