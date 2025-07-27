@@ -146,7 +146,7 @@ function StorePageSeller() {
   const handleLogout = () => {
     // Add your logout logic here
     console.log('Logging out...');
-    // navigate('/'); // Uncomment when you want to redirect to landing page
+    navigate('/'); // Uncomment when you want to redirect to landing page
     setShowProfileDropdown(false);
   };
 
