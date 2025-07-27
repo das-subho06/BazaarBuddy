@@ -1,0 +1,5 @@
+name = "bazaarbuddy"
+compatibility_date = "2025-07-27"
+main = "./src/index.js"
+[assets]
+  not_found_handling = "single-page-application"
