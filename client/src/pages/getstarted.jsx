@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 
-function GetStarted() {
+function GetStarted({handleBackToHome,setCurrentPage,handleRegister}) {
     // const [currentPage, setCurrentPage] = useState('home');
     // const handleRegister =async (userData) => {
     //     // In a real app, you would register with a backend
