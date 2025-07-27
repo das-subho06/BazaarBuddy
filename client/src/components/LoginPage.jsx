@@ -59,7 +59,7 @@ export default function LoginPage({ onBack, onSwitchToRegister, onLogin }) {
             navigate('/StorePage');
         }
         else
-            navigate('/');
+            navigate('/StorePageSeller');
     }
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-yellow-50">

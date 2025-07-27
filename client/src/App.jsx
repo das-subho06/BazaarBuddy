@@ -10,6 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import './App.css';
 import GetStarted from "./pages/getstarted.jsx";
 import StorePage from "./components/StorePage.jsx";
+import StorePageSeller from "./components/StorePageSeller.jsx";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                     <Route path='/getStarted' element={<GetStarted/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/storepage' element={<StorePage/>}/>
+                    <Route path='/storepageseller' element={<StorePageSeller/>}/>
             </Routes>
                  <Toaster/>
         </div>
