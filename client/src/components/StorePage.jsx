@@ -1,5 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Search, Filter, Star, MapPin, Phone, Mail, ShoppingCart, X } from 'lucide-react';
+import {
+    ArrowLeft,
+    Search,
+    Filter,
+    Star,
+    MapPin,
+    Phone,
+    Mail,
+    ShoppingCart,
+    X,
+    Settings,
+    User,
+    ChevronDown, LogOut
+} from 'lucide-react';
+import {useNavigate} from "react-router-dom";
 
 export default function StorePage({ searchQuery, location, category, onBack }) {
     const [filteredSuppliers, setFilteredSuppliers] = useState([]);
@@ -289,44 +303,107 @@ export default function StorePage({ searchQuery, location, category, onBack }) {
             </div>
         </div>
     );
-
-
+    const navigate=useNavigate();
+    const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+    const handleLogout = () => {
+        // Add your logout logic here
+        console.log('Logging out...');
+        navigate('/'); // Uncomment when you want to redirect to landing page
+        setShowProfileDropdown(false);
+    };
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
-            <div className="bg-white shadow-sm border-b">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex items-center justify-between space-x-4">
-                        {/* Left side: Back button */}
-                        <button
-                            onClick={onBack}
-                            className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
-                        >
-                            <ArrowLeft className="w-5 h-5" />
-                            <span>Back to Home</span>
-                        </button>
+          {/*  <div className="bg-white shadow-sm border-b">*/}
+          {/*      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">*/}
+          {/*          <div className="flex items-center justify-between space-x-4">*/}
+          {/*              /!* Left side: Back button *!/*/}
+          {/*              <button*/}
+          {/*                  onClick={onBack}*/}
+          {/*                  className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"*/}
+          {/*              >*/}
+          {/*                  <ArrowLeft className="w-5 h-5" />*/}
+          {/*                  <span>Back to Home</span>*/}
+          {/*              </button>*/}
 
-                        {/* Center: Title */}
-                        <h1 className="text-2xl font-bold text-gray-900 flex-1 text-center">
-                            Supplier Store
-                        </h1>
+          {/*              /!* Center: Title *!/*/}
+          {/*              <h1 className="text-2xl font-bold text-gray-900 flex-1 text-center">*/}
+          {/*                  Supplier Store*/}
+          {/*              </h1>*/}
 
-                        {/* Right side: Cart button */}
-                        <button
-                            onClick={() => setShowCart(true)}
-                            className="relative flex items-center space-x-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
-                        >
-                            <ShoppingCart className="w-5 h-5" />
-                            <span>Cart</span>
-                            {cartItemCount > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-            {cartItemCount}
-          </span>
-                            )}
-                        </button>
+          {/*              /!* Right side: Cart button *!/*/}
+          {/*              <button*/}
+          {/*                  onClick={() => setShowCart(true)}*/}
+          {/*                  className="relative flex items-center space-x-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"*/}
+          {/*              >*/}
+          {/*                  <ShoppingCart className="w-5 h-5" />*/}
+          {/*                  <span>Cart</span>*/}
+          {/*                  {cartItemCount > 0 && (*/}
+          {/*                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">*/}
+          {/*  {cartItemCount}*/}
+          {/*</span>*/}
+          {/*                  )}*/}
+          {/*              </button>*/}
+          {/*          </div>*/}
+          {/*      </div>*/}
+          {/*  </div>*/}
+
+
+            <header className="bg-white shadow-sm sticky top-0 z-50">
+                <div className="container mx-auto px-4 py-4">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                            <button onClick={()=>{navigate('/')}}   className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-all duration-300 hover:scale-105">
+                                <ArrowLeft className="w-5 h-5" />
+                                <span>Back to Home</span>
+                            </button>
+                            <div className="h-6 w-px bg-gray-300"></div>
+                            <div className="flex items-center space-x-2">
+                                <ShoppingCart className="w-8 h-8 text-orange-600" />
+                                <span className="text-2xl font-bold text-gray-800">BazaarBuddy</span>
+                                <span className="text-sm bg-orange-100 text-orange-800 px-2 py-1 rounded-full">Vendor</span>
+                            </div>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                            <button className="p-2 text-gray-600 hover:text-orange-600 transition-all duration-300 hover:scale-110">
+                                <Settings className="w-5 h-5" />
+                            </button>
+                            <div className="relative">
+                                <button
+                                    onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                                    className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                                >
+                                    <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-white">
+                                        <User className="w-4 h-4" />
+                                    </div>
+                                    <ChevronDown className="w-4 h-4 text-gray-600" />
+                                </button>
+
+                                {showProfileDropdown && (
+                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                                        <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-2">
+                                            <User className="w-4 h-4" />
+                                            <span>Profile</span>
+                                        </button>
+                                        <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors flex items-center space-x-2">
+                                            <Settings className="w-4 h-4" />
+                                            <span>Settings</span>
+                                        </button>
+                                        <hr className="my-2" />
+                                        <button
+                                            onClick={handleLogout}
+                                            className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors flex items-center space-x-2"
+                                        >
+                                            <LogOut className="w-4 h-4" />
+                                            <span>Logout</span>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </header>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Search and Filters */}
