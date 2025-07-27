@@ -9,6 +9,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import './App.css';
 import GetStarted from "./pages/getstarted.jsx";
+import StorePage from "./components/StorePage.jsx";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
                     <Route path='/phoneAuthentication' element={<PhoneAuthentication/>}/>
                     <Route path='/getStarted' element={<GetStarted/>}/>
                     <Route path='/login' element={<Login/>}/>
-         
+                    <Route path='/storepage' element={<StorePage/>}/>
             </Routes>
                  <Toaster/>
         </div>

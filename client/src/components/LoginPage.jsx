@@ -53,6 +53,14 @@ export default function LoginPage({ onBack, onSwitchToRegister, onLogin }) {
         }
     };
     const navigate = useNavigate();
+
+    function handlenav(){
+        if(userType === 'vendor'){
+            navigate('/StorePage');
+        }
+        else
+            navigate('/');
+    }
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-yellow-50">
             {/* Header */}
@@ -182,6 +190,7 @@ export default function LoginPage({ onBack, onSwitchToRegister, onLogin }) {
                             <button
                                 type="submit"
                                 className="w-full bg-orange-500 text-white py-3 px-4 rounded-xl hover:bg-orange-600 transition-colors font-semibold"
+                                onClick={()=>handlenav()}
                             >
                                 Sign In as {userType === 'vendor' ? 'Vendor' : 'Supplier'}
                             </button>
