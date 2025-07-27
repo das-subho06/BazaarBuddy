@@ -36,11 +36,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/bazaarbuddy', {
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log(err));
 
-// Import our models (Step 6)
-import Vendor from './models/Vendor.js';
-import Supplier from './models/Supplier.js';
-import Order from './models/Order.js';
-import Feedback from './models/Feedback.js';
 
 // Simple test route
 app.get('/', (req, res) => {

@@ -92,12 +92,14 @@ const { confirmPassword, ...dataToSend } = {
 
     try {
       const { formData } = get();
-      const phone = formData.phone;
+      const phone = formData.phone.startsWith('+')
+          ? formData.phone
+          : `+91${formData.phone}`;
 
       const response = await axios.post(
-        `${API_URL}/verify-phone`,
-        { phone, otp },
-        { withCredentials: true }
+          `${API_URL}/verify-otp`,
+          { phone, otp },
+          { withCredentials: true }
       );
 
       set({

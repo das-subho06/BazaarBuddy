@@ -48,9 +48,9 @@ const {error, isLoading, verifyPhone}=useAuthStore()
     alert(`Verification code: ${verificationCode}`)
    
     try{
-      await verifyEmail(verificationCode)
+      await verifyPhone(verificationCode)
      
-      toast.success("Email verified successfully")
+      toast.success("Phone verified successfully")
        navigate("/home")
 
     }catch(error){

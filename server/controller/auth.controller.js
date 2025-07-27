@@ -70,16 +70,21 @@ export const verifyPhone = async (req, res) => {
   try {
     const { phone, otp } = req.body;
 
-    // Verify OTP using Twilio
+    // Validate input
+    if (!phone || !otp) {
+      return res.status(400).json({ message: 'Phone and OTP are required' });
+    }
+
+    // Verify OTP using Twilio Verify API
     const verificationCheck = await client.verify.v2
-      .services(process.env.TWILIO_VERIFY_SID)
-      .verificationChecks.create({ to: phone, code: otp });
+        .services(process.env.TWILIO_VERIFY_SID)
+        .verificationChecks.create({ to: phone, code: otp });
 
     if (verificationCheck.status !== 'approved') {
       return res.status(400).json({ message: 'Invalid or expired verification code' });
     }
 
-    // Update user's isVerified field
+    // OTP approved — now update user verification status
     const user = await User.findOne({ phone });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -88,12 +93,14 @@ export const verifyPhone = async (req, res) => {
     user.isVerified = true;
     await user.save();
 
-    res.status(200).json({ success: true, message: 'Phone number verified successfully' });
+    // Return success with optional user data
+    res.status(200).json({ success: true, message: 'Phone number verified successfully', user });
   } catch (error) {
     console.error('Verify Phone Error:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 };
+
 // export const loginUser = async (req, res) => {
 //   try {
 //     const { email, password } = req.body;

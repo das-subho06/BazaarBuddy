@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Mail, Lock, Eye, EyeOff, ShoppingCart, Store, User, Phone, MapPin } from 'lucide-react';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../store/authStore.js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
@@ -105,12 +105,14 @@ export default function RegisterPage({ onBack, onSwitchToLogin, onRegister }) {
 
             if (res.status === 201) {
                 navigate('/phoneAuthentication');
-                resetForm();
             }
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.message || 'Something went wrong');
         }
+        console.log(formData);
+
+
     };
 
     const navigate = useNavigate();
